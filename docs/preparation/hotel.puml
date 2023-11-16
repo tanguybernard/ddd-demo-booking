@@ -1,0 +1,23 @@
+@startuml
+
+object hotel
+hotel : id
+hotel : capacity
+hotel : listRoom
+
+object room
+
+room : roomNumber
+room : capacity
+
+hotel *-- room
+
+object price
+
+price : value
+price : currency
+price : period
+
+hotel *-- price
+
+@enduml
