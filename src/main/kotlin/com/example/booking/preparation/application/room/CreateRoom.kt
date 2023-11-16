@@ -1,7 +1,6 @@
 package com.example.booking.preparation.application.room
 
 import com.example.booking.preparation.domain.hotel.HotelId
-import com.example.booking.preparation.domain.hotel.HotelRepository
 import com.example.booking.preparation.domain.room.Room
 
 class CreateRoom(private val roomDomainService: RoomDomainService) {
