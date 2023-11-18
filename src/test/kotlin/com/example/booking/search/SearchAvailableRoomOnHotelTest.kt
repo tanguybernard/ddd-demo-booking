@@ -1,13 +1,20 @@
-package com.example.booking.booking
+package com.example.booking.search
 
-import com.example.booking.booking.domain.*
-import com.example.booking.booking.infrastructure.InMemoryHotelRepository
+import com.example.booking.search.application.SearchAvailableRoom
+import com.example.booking.search.domain.hotel.Hotel
+import com.example.booking.search.domain.hotel.HotelAgenda
+import com.example.booking.search.domain.hotel.HotelId
+import com.example.booking.search.domain.hotel.Period
+import com.example.booking.search.domain.hotel.Room
+import com.example.booking.search.domain.hotel.RoomId
+import com.example.booking.search.domain.hotel.RoomStatus
+import com.example.booking.search.infrastructure.InMemoryHotelRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.util.*
 
 
-class SearchAvailableRoomOnHotel {
+class SearchAvailableRoomOnHotelTest {
 
     @Test
     fun `search available room for one night`(){
@@ -24,7 +31,7 @@ class SearchAvailableRoomOnHotel {
         val agenda = HotelAgenda()
         agenda.setRooms(
             currentDatePlusOneMonth,
-            listOf(Room(RoomId("1"), RoomStatus.AVAILABLE))
+            listOf(Room(3, RoomStatus.AVAILABLE))
             )
 
         val hotel = Hotel(

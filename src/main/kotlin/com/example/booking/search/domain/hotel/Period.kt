@@ -1,4 +1,4 @@
-package com.example.booking.booking.domain
+package com.example.booking.search.domain.hotel
 
 import java.util.*
 
