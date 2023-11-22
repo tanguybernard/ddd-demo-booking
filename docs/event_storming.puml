@@ -1,0 +1,27 @@
+@startuml
+!include_once https://raw.githubusercontent.com/chilit-nl/plantuml-event-modeling/main/event-modeling-lib.iuml
+
+$enableAutoAlias()
+$enableAutoSpacing()
+
+$event(Capacity Created)
+$event(Price Created)
+$event(Training Course Created)
+$event(Training Course Session Created)
+$event(Training Searched)
+$event(Training Selected)
+$event(Day Selected)
+$event(Personal Information Filled)
+$event(Training Paid)
+$event(Training Booked)
+$event(Training Completed)
+
+$event(Training evaluated)
+
+
+
+
+
+' Render the diagram
+$renderEventModelingDiagram()
+@enduml
