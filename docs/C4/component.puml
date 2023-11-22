@@ -1,0 +1,69 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component diagram for Training System
+
+Person(admin, "Admin", "")
+
+Container_Boundary(preparation, "BC Preparation") {
+
+    AddProperty("id", "idTraining")
+    AddProperty("name", "Training DDD")
+    AddProperty("duration", "3 days")
+    AddProperty("maxNumberStudents", "8")
+    Component(course, "Course", "Aggregate Root", "")
+
+
+    AddProperty("id", "s1")
+    AddProperty("startDate", "2023-11-22")
+    AddProperty("startDate", "2023-11-24")
+    Component(session, "Session", "Aggregate Root", "Session on training")
+
+    AddProperty("Value", "1200")
+    AddProperty("Currency", "EUR")
+    Component(price, "Price", "Value Object", "Price for a student, for the duration of the course.")
+
+    Rel_U(session, course, "reference")
+    Rel_D(course, price, "have")
+
+}
+
+Rel(admin, preparation, "Supply information about courses", "JSON/HTTPS")
+
+Rel(preparation, registration, "Provides data")
+
+
+Container_Boundary(registration, "BC Registration") {
+
+    AddProperty("id", "idSession")
+    AddProperty("name", "Training Session DDD")
+    AddProperty("numberOfPlaces", "8")
+    AddProperty("places", "[]")
+    Component(publishedSession, "Session", "Aggregate Root", "Session where student can apply")
+
+    AddProperty("id", "#student1234")
+    AddProperty("name", "John Doe")
+    AddProperty("email", "john.doe@gmail.com")
+    AddProperty("status", "REQUESTED, ACCEPTED")
+    Component(place, "Place", "Entity", "Place available for training session")
+
+    Component(evaluation, "Evaluation", "Value Object", "Score")
+
+    Component(trainingRate, "Rate", "Value Object", "Score")
+
+
+    Rel_D(publishedSession, place, "contains")
+    Rel_D(place, evaluation, "contains")
+    Rel_D(place, trainingRate, "contains")
+
+
+
+
+}
+
+
+@enduml

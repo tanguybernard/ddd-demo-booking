@@ -1,0 +1,24 @@
+@startuml
+
+object course
+course : courseId
+course : name
+course : duration
+
+object session
+
+session : id
+session : courseId
+session : startDate
+session : endDate
+
+session --> course : reference
+
+object price
+
+price : value
+price : currency
+
+course o-- price
+
+@enduml
