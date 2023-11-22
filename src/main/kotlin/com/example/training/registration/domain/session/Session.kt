@@ -12,7 +12,7 @@ class Session private constructor(val sessionId: SessionId) {
     fun addPlace(place: Place) {
         val placeAlreadyExist = places.find { it.email == place.email }
         if(placeAlreadyExist != null) {
-            throw PlaceWithSameEmailAlreayRegistered()
+            throw PlaceWithSameEmailAlreadyRegistered()
         }
         else {
 
