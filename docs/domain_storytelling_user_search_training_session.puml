@@ -1,0 +1,20 @@
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+Person(Alice)
+
+
+Boundary(Registration) {
+
+    Document(courseDDD, course about DDD)
+    Folder(sessions, Training Sessions)
+
+
+    System(registrationSystem, Registration System, )
+
+}
+  activity(_, Alice, search, courseDDD, on, registrationSystem)
+  activity(_, registrationSystem, recommends, sessions, for, Alice)
+
+
+@enduml
