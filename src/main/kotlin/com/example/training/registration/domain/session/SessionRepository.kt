@@ -4,5 +4,6 @@ interface SessionRepository {
 
     fun getSessionBy(sessionId: SessionId): Session
     fun create(session: Session)
+    fun saveSession(session: Session)
 
 }

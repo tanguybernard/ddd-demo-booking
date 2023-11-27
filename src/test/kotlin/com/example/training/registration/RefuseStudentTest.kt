@@ -7,9 +7,12 @@ import com.example.training.registration.infrastructure.InMemorySessionRepositor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
 import java.util.UUID
 
-class RegisterStudentTest {
+@SpringBootTest
+class RefuseStudentTest {
 
 
     private lateinit var sessionRepository : SessionRepository
@@ -18,7 +21,7 @@ class RegisterStudentTest {
     private lateinit var sessionId : SessionId
     @BeforeEach
     fun before() {
-        sessionRepository = InMemorySessionRepository()
+        sessionRepository = InMemorySessionRepository();
         sessionId = SessionId(UUID.randomUUID().toString())
         session = Session.create(sessionId)
         sessionRepository.create(session)
@@ -30,12 +33,19 @@ class RegisterStudentTest {
         val name = "John Doe"
         val email = "john.doe@gmail.com"
 
-        val placeExpected = Place(name, email, PlaceStatus.REGISTRATION_REQUEST)
+        val place = Place(name, email, PlaceStatus.REGISTRATION_REQUEST);
 
-        val useCase = RegisterStudentForSession(sessionRepository)
-        useCase.execute(RegisterStudentCommand(name, email, session.sessionId.value))
-        val sessionWithNewUser = sessionRepository.getSessionBy(session.sessionId)
-        assertThat(sessionWithNewUser.getPlaces().first { it.email == email }).isEqualTo(placeExpected)
+        session.addUser(place)
+        sessionRepository.saveSession(session);
+
+        val useCase = RefuseStudentForSession(sessionRepository)
+        useCase.execute(email, session.sessionId.value)
+
+        val sessionWithoutJohnDoeUser = sessionRepository.getSessionBy(session.sessionId)
+
+
+
+        assertThat(sessionWithoutJohnDoeUser.getPlaces()).hasSize(0)
 
 
     }
