@@ -1,15 +1,11 @@
 
 # TODO LIST
 
-Futur :
-Selection d'une chambre selon capacité et prix
+Reservation annulé = place libéré
+
+Demande de place = reservation demandé en attente d'etre traité.
 
 
-
-Ajouter une nouvelle chambre a un hotel(BC preparation) entraine un Integration event vers le BC Search
-
-
-Reservation ok === Room Booked dans le planning
+Mettre a jour le prix d'une place 
 
 
-Cut search => Searh + Booking
