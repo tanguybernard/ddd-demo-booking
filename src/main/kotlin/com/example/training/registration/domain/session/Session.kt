@@ -3,7 +3,7 @@ package com.example.training.registration.domain.session
 import com.example.training.registration.domain.session.events.UserRefusedForSessionEvent
 import com.example.training.shared.AggregateRoot
 
-class Session private constructor(val sessionId: SessionId) : AggregateRoot<SessionId>(sessionId) {
+class Session private constructor(val sessionId: SessionId, val title: SessionTitle) : AggregateRoot<SessionId>(sessionId) {
     private var places: ArrayList<Place> = arrayListOf()
 
     fun getPlaces(): List<Place> {
@@ -23,13 +23,13 @@ class Session private constructor(val sessionId: SessionId) : AggregateRoot<Sess
 
     fun removeUserBy(email: String) {
         this.places = this.places.filter { it.email != email } as ArrayList<Place>
-        this.record(UserRefusedForSessionEvent(this.sessionId));
+        this.record(UserRefusedForSessionEvent(this.sessionId, email));
     }
 
     companion object {
-        fun create(sessionId: SessionId): Session {
+        fun create(sessionId: SessionId, title: SessionTitle): Session {
 
-            return Session(sessionId)
+            return Session(sessionId, title)
 
         }
     }

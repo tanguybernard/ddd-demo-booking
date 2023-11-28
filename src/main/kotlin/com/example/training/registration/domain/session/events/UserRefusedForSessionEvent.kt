@@ -4,5 +4,5 @@ import com.example.training.registration.domain.session.SessionId
 import com.example.training.shared.DomainEvent
 
 
-class UserRefusedForSessionEvent(val sessionId: SessionId): DomainEvent
+class UserRefusedForSessionEvent(val sessionId: SessionId, val userEmail: String): DomainEvent
 

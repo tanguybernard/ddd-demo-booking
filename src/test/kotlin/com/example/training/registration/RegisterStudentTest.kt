@@ -20,7 +20,7 @@ class RegisterStudentTest {
     fun before() {
         sessionRepository = InMemorySessionRepository()
         sessionId = SessionId(UUID.randomUUID().toString())
-        session = Session.create(sessionId)
+        session = Session.create(sessionId, SessionTitle("DDD Training"))
         sessionRepository.create(session)
     }
 
