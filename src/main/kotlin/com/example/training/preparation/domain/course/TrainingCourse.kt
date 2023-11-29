@@ -1,6 +1,7 @@
 package com.example.training.preparation.domain.course
 
 import com.example.training.preparation.domain.SessionRemovedDomainEvent
+import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.shared.AggregateRoot
 
 class TrainingCourse(val trainingId: TrainingId, val trainingName: TrainingName, val duration: Int)
@@ -21,6 +22,10 @@ class TrainingCourse(val trainingId: TrainingId, val trainingName: TrainingName,
 
     fun addSession(session: Session) {
         sessions[session.sessionId] = session
+    }
+
+    fun updateTrainerForSession(sessionId: SessionId, trainerId: TrainerId) {
+        sessions.getOrElse(sessionId) { throw SessionNotFound() }.trainerId = trainerId
     }
 
 }

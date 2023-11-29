@@ -1,6 +1,6 @@
 package com.example.training.preparation
 
-import com.example.training.preparation.application.course.RemoveSession
+import com.example.training.preparation.application.course.UpdateTrainerOnSession
 import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.preparation.domain.course.TrainingCourse
 import com.example.training.preparation.domain.course.TrainingCourseRepository
@@ -9,6 +9,10 @@ import com.example.training.preparation.domain.course.TrainingName
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
 import com.example.training.preparation.domain.course.Session
 import com.example.training.preparation.domain.course.SessionId
+import com.example.training.preparation.domain.trainer.Trainer
+import com.example.training.preparation.domain.trainer.TrainerRepository
+import com.example.training.preparation.domain.trainer.UpdateTrainerOnSessionDomainService
+import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -19,11 +23,13 @@ import java.time.LocalDate
 import java.util.*
 
 @SpringBootTest
-class RemoveTrainingCourseTest(
+class UpdateTrainerOnSessionTest(
 
 ) {
     @Autowired
     private lateinit var courseMediator: CourseMediator
+
+    private lateinit var trainerRepository: TrainerRepository
 
     private lateinit var trainingCourseRepository: TrainingCourseRepository
     private val trainerId = "#tbe"
@@ -33,6 +39,7 @@ class RemoveTrainingCourseTest(
     @BeforeEach
     fun setUp() {
         this.trainingCourseRepository = InMemoryTrainingRepository()
+        this.trainerRepository = InMemoryTrainerRepository()
 
         this.trainingId = UUID.randomUUID().toString()
 
@@ -59,14 +66,27 @@ class RemoveTrainingCourseTest(
 
 
     @Test
-    fun removeTrainingSession(){
+    fun updateTrainerOnSession(){
 
-        val useCase = RemoveSession(this.trainingCourseRepository, courseMediator)
+        val domainService =  UpdateTrainerOnSessionDomainService(
+        this.trainerRepository,
+        this.trainingCourseRepository
+        )
 
-        useCase.execute(this.trainingId, this.sessionId)
+        val useCase = UpdateTrainerOnSession(domainService)
+
+        val expectedTrainer = "#sdu"
+        this.trainerRepository.add(Trainer(TrainerId(expectedTrainer)))
+
+        useCase.execute(expectedTrainer, this.trainingId, this.sessionId)
+
+
+        val trainerFound = trainingCourseRepository
+            .getTrainingCourseBy(TrainingId(trainingId))
+            .getSessionBy(SessionId(this.sessionId)).trainerId
 
         //TODO update Test
-        assertThat(true).isTrue()
+        assertThat(trainerFound).isEqualTo(TrainerId("#sdu"))
 
     }
 }

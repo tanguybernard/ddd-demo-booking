@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 class Session(
     val sessionId: SessionId,
-    val trainerId: TrainerId,
+    var trainerId: TrainerId,
     val startDate: LocalDate, val endDate: LocalDate
 
 ): Entity<SessionId>(sessionId)

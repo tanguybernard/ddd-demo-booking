@@ -2,10 +2,12 @@ package com.example.training.preparation.application.course
 
 import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.preparation.domain.course.*
+import com.example.training.preparation.domain.trainer.TrainerRepository
 import java.time.Period
 import java.util.UUID
 
 class TrainingSessionDomainService(
+    private val trainerRepository: TrainerRepository,
     private val trainingCourseRepository: TrainingCourseRepository
 ) {
 
@@ -18,11 +20,14 @@ class TrainingSessionDomainService(
             throw SessionPeriodIsIncorrectToTheDurationOfACourse
         }
 
+        //Can throw an exception, TrainerNotFound
+        val trainer = trainerRepository.getTrainerBy(TrainerId(command.trainerId));
+
         val sessionId = SessionId(UUID.randomUUID().toString())
         training.addSession(
             Session(
                 sessionId,
-                TrainerId(command.trainerId),
+                trainer.trainerId,
                 command.startDate,
                 command.endDate
             )

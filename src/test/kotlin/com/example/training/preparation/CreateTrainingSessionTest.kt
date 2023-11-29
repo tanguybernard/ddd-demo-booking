@@ -8,6 +8,10 @@ import com.example.training.preparation.domain.course.TrainingCourse
 import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.course.TrainingId
 import com.example.training.preparation.domain.course.TrainingName
+import com.example.training.preparation.domain.trainer.Trainer
+import com.example.training.preparation.domain.trainer.TrainerId
+import com.example.training.preparation.domain.trainer.TrainerRepository
+import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
 import com.example.training.preparation.infrastructure.stubs.TrainingCourseDoesNotExist
 import org.assertj.core.api.Assertions.assertThat
@@ -22,12 +26,16 @@ class CreateTrainingSessionTest {
 
 
     private lateinit var trainingCourseRepository: TrainingCourseRepository
+    private lateinit var trainerRepository: TrainerRepository
     private val trainerId = "#tbe"
     private lateinit var trainingId: String
 
     @BeforeEach
     fun setUp() {
         this.trainingCourseRepository = InMemoryTrainingRepository()
+        this.trainerRepository = InMemoryTrainerRepository()
+
+        this.trainerRepository.add(Trainer(TrainerId(trainerId)))
 
         this.trainingId = UUID.randomUUID().toString()
         trainingCourseRepository.createTrainingCourse(
@@ -43,7 +51,10 @@ class CreateTrainingSessionTest {
     fun createTrainingSession(){
 
         val useCase = CreateTrainingSession(
-            trainingSessionDomainService = TrainingSessionDomainService(trainingCourseRepository)
+            trainingSessionDomainService = TrainingSessionDomainService(
+                trainerRepository,
+                trainingCourseRepository
+            )
         )
         val startDate = LocalDate.now().plusDays(3)
         val endDate = startDate.plusDays(3)
@@ -58,7 +69,10 @@ class CreateTrainingSessionTest {
     fun `create a session where period does not match with the duration of the course`(){
 
         val useCase = CreateTrainingSession(
-            trainingSessionDomainService = TrainingSessionDomainService(trainingCourseRepository)
+            trainingSessionDomainService = TrainingSessionDomainService(
+                trainerRepository,
+                trainingCourseRepository
+            )
         )
         val startDate = LocalDate.now().plusDays(3)
         val endDate = startDate.plusDays(2)
@@ -75,7 +89,10 @@ class CreateTrainingSessionTest {
     @Test
     fun `create a session for Training course that no longer exists`(){
         val useCase = CreateTrainingSession(
-            trainingSessionDomainService = TrainingSessionDomainService(trainingCourseRepository)
+            trainingSessionDomainService = TrainingSessionDomainService(
+                trainerRepository,
+                trainingCourseRepository
+            )
         )
         val startDate = LocalDate.now().plusDays(3)
         val endDate = startDate.plusDays(2)

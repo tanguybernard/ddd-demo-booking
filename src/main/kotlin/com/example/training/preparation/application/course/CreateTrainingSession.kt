@@ -6,10 +6,8 @@ class CreateTrainingSession(
     private val trainingSessionDomainService: TrainingSessionDomainService
 ) {
 
-
     fun execute(command: CreateSessionCommand): SessionId {
         return trainingSessionDomainService.createSessionFromTrainingCourse(command)
-
     }
 
 }
