@@ -1,7 +1,7 @@
 package com.example.training.preparation
 
 import com.example.training.preparation.application.course.CourseRemovedHandler
-import com.example.training.preparation.domain.CourseRemovedDomainEvent
+import com.example.training.preparation.domain.SessionRemovedDomainEvent
 import com.example.training.preparation.domain.mediatorPattern.Component
 import com.example.training.preparation.domain.mediatorPattern.CourseImplMediator
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
@@ -21,7 +21,7 @@ class MediatorConfiguration {
     @Bean
     fun courseMediator(): CourseMediator{
         val mediator = CourseImplMediator()
-        mediator.addUser(CourseRemovedDomainEvent.NAME,courseRemovedHandler())
+        mediator.addUser(SessionRemovedDomainEvent.NAME,courseRemovedHandler())
         return mediator
 
     }

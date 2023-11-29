@@ -4,19 +4,20 @@ import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.course.TrainingId
 import com.example.training.preparation.domain.mediatorPattern.Component
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
+import com.example.training.preparation.domain.course.SessionId
 import com.example.training.shared.DomainEvent
 
-class RemoveCourse(
-    private val courseRepository: TrainingCourseRepository,
+class RemoveSession(
+    private val trainingCourseRepository: TrainingCourseRepository,
     private var courseMediator: CourseMediator
 ): Component {
 
-    fun execute(courseId: String){
+    fun execute(courseId: String, sessionId: String){
 
-        val course = courseRepository.getTrainingCourseBy(TrainingId(courseId))
+        val course = trainingCourseRepository.getTrainingCourseBy(TrainingId(courseId))
 
-        course.remove()
-        //courseRepository.remove(course)
+        course.removeSession(SessionId(sessionId))
+        trainingCourseRepository.save(course)
 
         course.pullDomainEvents().forEach {
             this.send(it)

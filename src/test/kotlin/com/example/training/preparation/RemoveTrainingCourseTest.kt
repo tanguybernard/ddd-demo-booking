@@ -1,16 +1,14 @@
 package com.example.training.preparation
 
-import com.example.training.preparation.application.course.RemoveCourse
-import com.example.training.preparation.domain.TrainerId
+import com.example.training.preparation.application.course.RemoveSession
+import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.preparation.domain.course.TrainingCourse
 import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.course.TrainingId
 import com.example.training.preparation.domain.course.TrainingName
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
-import com.example.training.preparation.domain.session.Session
-import com.example.training.preparation.domain.session.SessionId
-import com.example.training.preparation.domain.session.SessionRepository
-import com.example.training.preparation.infrastructure.stubs.InMemorySessionRepository
+import com.example.training.preparation.domain.course.Session
+import com.example.training.preparation.domain.course.SessionId
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -28,43 +26,44 @@ class RemoveTrainingCourseTest(
     private lateinit var courseMediator: CourseMediator
 
     private lateinit var trainingCourseRepository: TrainingCourseRepository
-    private lateinit var sessionRepository: SessionRepository
     private val trainerId = "#tbe"
     private lateinit var trainingId: String
-    private lateinit var sessionId: SessionId
+    private lateinit var sessionId: String
 
     @BeforeEach
     fun setUp() {
         this.trainingCourseRepository = InMemoryTrainingRepository()
 
         this.trainingId = UUID.randomUUID().toString()
-        trainingCourseRepository.createTrainingCourse(
-                TrainingCourse(
-                        TrainingId(this.trainingId),
-                        TrainingName("DDD Training"),
-                        3
-                ))
-        this.sessionRepository = InMemorySessionRepository()
+
+        val course = TrainingCourse(
+                TrainingId(this.trainingId),
+                TrainingName("DDD Training"),
+                3
+        )
+
+
         val startDate = LocalDate.now().plusDays(3)
         val endDate = startDate.plusDays(3)
-        sessionId = this.sessionRepository.nextId()
-        this.sessionRepository.create(
-            Session(sessionId,
-                TrainingId(this.trainingId),
+        sessionId = UUID.randomUUID().toString()
+        course.addSession(
+            Session(
+                SessionId(sessionId),
                 TrainerId(trainerId),
                 startDate,
                 endDate
             )
         )
+        trainingCourseRepository.save(course)
     }
 
 
     @Test
-    fun publishTrainingSession(){
+    fun removeTrainingSession(){
 
-        val useCase = RemoveCourse(this.trainingCourseRepository, courseMediator)
+        val useCase = RemoveSession(this.trainingCourseRepository, courseMediator)
 
-        useCase.execute(this.trainingId)
+        useCase.execute(this.trainingId, this.sessionId)
 
         //TODO update Test
         assertThat(true).isTrue()

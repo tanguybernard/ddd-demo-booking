@@ -1,6 +1,6 @@
-package com.example.training.preparation.application.session
+package com.example.training.preparation.application.course
 
-import com.example.training.preparation.domain.session.SessionId
+import com.example.training.preparation.domain.course.SessionId
 
 class CreateTrainingSession(
     private val trainingSessionDomainService: TrainingSessionDomainService

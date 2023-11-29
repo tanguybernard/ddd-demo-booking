@@ -1,15 +1,11 @@
-package com.example.training.preparation.application.session
+package com.example.training.preparation.application.course
 
-import com.example.training.preparation.domain.TrainerId
-import com.example.training.preparation.domain.course.TrainingCourseRepository
-import com.example.training.preparation.domain.course.TrainingId
-import com.example.training.preparation.domain.session.Session
-import com.example.training.preparation.domain.session.SessionId
-import com.example.training.preparation.domain.session.SessionRepository
+import com.example.training.preparation.domain.trainer.TrainerId
+import com.example.training.preparation.domain.course.*
 import java.time.Period
+import java.util.UUID
 
 class TrainingSessionDomainService(
-    private val sessionRepository: SessionRepository,
     private val trainingCourseRepository: TrainingCourseRepository
 ) {
 
@@ -22,15 +18,16 @@ class TrainingSessionDomainService(
             throw SessionPeriodIsIncorrectToTheDurationOfACourse
         }
 
-        val sessionId = sessionRepository.nextId()
-        sessionRepository.create(
+        val sessionId = SessionId(UUID.randomUUID().toString())
+        training.addSession(
             Session(
-                sessionId, TrainingId(command.trainingId),
+                sessionId,
                 TrainerId(command.trainerId),
                 command.startDate,
                 command.endDate
             )
         )
+        trainingCourseRepository.save(training)
 
         return sessionId
     }

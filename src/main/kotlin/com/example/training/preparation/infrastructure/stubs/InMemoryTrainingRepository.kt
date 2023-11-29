@@ -25,5 +25,9 @@ class InMemoryTrainingRepository : TrainingCourseRepository {
         return TrainingId(UUID.randomUUID().toString())
     }
 
+    override fun save(course: TrainingCourse) {
+        map[course.trainingId] = course
+    }
+
 
 }

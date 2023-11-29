@@ -7,5 +7,6 @@ interface TrainingCourseRepository {
 
     fun update(trainingCourse: TrainingCourse)
     fun nextId(): TrainingId
+    fun save(course: TrainingCourse)
 
 }

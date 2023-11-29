@@ -1,4 +1,4 @@
-package com.example.training.preparation.application.session
+package com.example.training.preparation.application.course
 
 object SessionPeriodIsIncorrectToTheDurationOfACourse : Throwable() {
 

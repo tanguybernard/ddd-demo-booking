@@ -1,6 +1,7 @@
 package com.example.training.registration
 
 import com.example.training.registration.application.UserRefusedForSessionHandler
+import com.example.training.registration.domain.session.SessionRepository
 import com.example.training.registration.domain.session.events.UserRefusedForSessionEvent
 import com.example.training.registration.infrastructure.InMemorySessionRepository
 import com.example.training.registration.infrastructure.fake.FakeEmailSender
@@ -11,10 +12,16 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class DomainEventsConfiguration {
 
+
+    @Bean
+    fun sessionRepository(): SessionRepository {
+        return InMemorySessionRepository()
+    }
+
     @Bean
     fun userRefusedForSessionHandler(): UserRefusedForSessionHandler {
         return UserRefusedForSessionHandler(
-            FakeEmailSender(), InMemorySessionRepository()
+            FakeEmailSender(), sessionRepository()
         )
     }
 
