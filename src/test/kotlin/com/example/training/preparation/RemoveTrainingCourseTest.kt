@@ -1,7 +1,6 @@
-package com.example.training.preparation;
+package com.example.training.preparation
 
 import com.example.training.preparation.application.course.RemoveCourse
-import com.example.training.preparation.domain.CourseRemovedDomainEvent
 import com.example.training.preparation.domain.TrainerId
 import com.example.training.preparation.domain.course.TrainingCourse
 import com.example.training.preparation.domain.course.TrainingCourseRepository
@@ -13,11 +12,9 @@ import com.example.training.preparation.domain.session.SessionId
 import com.example.training.preparation.domain.session.SessionRepository
 import com.example.training.preparation.infrastructure.stubs.InMemorySessionRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
-import com.example.training.preparation.infrastructure.stubs.TrainingCourseDoesNotExist
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDate
@@ -28,7 +25,7 @@ class RemoveTrainingCourseTest(
 
 ) {
     @Autowired
-    private lateinit var courseMediator: CourseMediator<CourseRemovedDomainEvent>
+    private lateinit var courseMediator: CourseMediator
 
     private lateinit var trainingCourseRepository: TrainingCourseRepository
     private lateinit var sessionRepository: SessionRepository

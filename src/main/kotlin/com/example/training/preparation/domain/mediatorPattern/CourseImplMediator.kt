@@ -3,24 +3,21 @@ package com.example.training.preparation.domain.mediatorPattern
 import com.example.training.shared.DomainEvent
 
 // Concrete Mediator, send message to component
-class CourseImplMediator <T:DomainEvent> : CourseMediator<T> {
+class CourseImplMediator: CourseMediator {
 
-    private var components: List<Component<T>> ;
+    private var components: HashMap<String, List<Component>> = HashMap()
 
-    init {
-        components= ArrayList();
-    }
-
-    override fun sendMessage(event: T, sender: Component<T>) {
+    override fun sendMessage(event: DomainEvent, sender: Component) {
         // Broadcast the message to all users except the sender
-        for (user in components) {
-            if (user !== sender) {
+
+        components[event.getName()]?.forEach { user ->
+            if(user != sender ) {
                 user.receive(event)
             }
         }
     }
 
-    override fun addUser(component: Component<T>) {
-        this.components = this.components.plus(component)
+    override fun addUser(name: String, component: Component) {
+        this.components[name] = this.components[name]?.plus(component) ?: listOf(component)
     }
 }

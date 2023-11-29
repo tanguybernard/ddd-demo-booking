@@ -1,6 +1,5 @@
 package com.example.training.preparation.application.course
 
-import com.example.training.preparation.domain.CourseRemovedDomainEvent
 import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.course.TrainingId
 import com.example.training.preparation.domain.mediatorPattern.Component
@@ -9,8 +8,8 @@ import com.example.training.shared.DomainEvent
 
 class RemoveCourse(
     private val courseRepository: TrainingCourseRepository,
-    private var courseMediator: CourseMediator<CourseRemovedDomainEvent>
-): Component<CourseRemovedDomainEvent> {
+    private var courseMediator: CourseMediator
+): Component {
 
     fun execute(courseId: String){
 
@@ -26,10 +25,10 @@ class RemoveCourse(
 
 
     override fun send(event: DomainEvent) {
-        courseMediator.sendMessage(event as CourseRemovedDomainEvent,this)
+        courseMediator.sendMessage(event,this)
     }
 
-    override fun receive(event: CourseRemovedDomainEvent) {
+    override fun receive(event: DomainEvent) {
         TODO("Not yet implemented")
     }
 

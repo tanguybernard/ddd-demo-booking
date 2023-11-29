@@ -1,3 +1,5 @@
 package com.example.training.shared
 
-interface DomainEvent
+interface DomainEvent {
+    fun getName(): String
+}
