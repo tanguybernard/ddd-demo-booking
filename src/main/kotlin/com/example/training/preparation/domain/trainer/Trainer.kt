@@ -5,28 +5,17 @@ import com.example.training.shared.AggregateRoot
 
 class Trainer(val trainerId: TrainerId) : AggregateRoot<TrainerId>(trainerId){
 
-    private var expertises : List<CourseId> = arrayListOf()
+    private var expertises : Expertises = arrayListOf()
 
 
-    fun setExpertises(expertises: List<CourseId>) {
+    fun setExpertises(expertises: Expertises) {
         this.expertises = expertises
     }
 
-
-    companion object {
-
-        class ComputerBuilder {
-
-            // required parameters
-            val experiences: List<String> = TODO();
-
-
-            fun withExperiences() {
-
-            }
-
-        }
+    fun getExpertises(): Expertises {
+        return this.expertises
     }
 
-
 }
+
+typealias Expertises = List<CourseId>

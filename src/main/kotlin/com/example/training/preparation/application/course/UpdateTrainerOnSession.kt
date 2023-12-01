@@ -10,6 +10,6 @@ class UpdateTrainerOnSession(val domainService: UpdateTrainerOnSessionDomainServ
         domainService.execute(trainerId, trainingId, sessionId)
 
         //TODO domain event to alert the replaced trainer
-        // if session is publisher, integraiton event on BC registration to change trainer
+        // if session is published, raise integration event on BC registration to change trainer
     }
 }

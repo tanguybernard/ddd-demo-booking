@@ -16,4 +16,8 @@ class InMemoryTrainerRepository : TrainerRepository {
     override fun add(trainer: Trainer) {
         list[trainer.trainerId] = trainer
     }
+
+    override fun update(trainer: Trainer) {
+        list[trainer.trainerId] = trainer
+    }
 }

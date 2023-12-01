@@ -10,6 +10,7 @@ import com.example.training.preparation.domain.course.CourseId
 import com.example.training.preparation.domain.course.TrainingName
 import com.example.training.preparation.domain.trainer.Trainer
 import com.example.training.preparation.domain.trainer.TrainerBuilder
+import com.example.training.preparation.domain.trainer.TrainerCannotLeadThisTraining
 import com.example.training.preparation.domain.trainer.TrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
@@ -34,10 +35,7 @@ class CreateTrainingSessionTest {
         this.trainingCourseRepository = InMemoryTrainingRepository()
         this.trainerRepository = InMemoryTrainerRepository()
 
-        trainer = TrainerBuilder().build()
-        this.trainerRepository.add(
-            trainer
-        )
+
 
         this.trainingId = UUID.randomUUID().toString()
         trainingCourseRepository.createTrainingCourse(
@@ -46,6 +44,12 @@ class CreateTrainingSessionTest {
                 TrainingName("DDD Training"),
                 3
             ))
+
+        trainer = TrainerBuilder().withExpertises(listOf( CourseId(trainingId))).build()
+
+        this.trainerRepository.add(
+            trainer
+        )
     }
 
 
@@ -100,11 +104,33 @@ class CreateTrainingSessionTest {
             )
         )
         val startDate = LocalDate.now().plusDays(3)
-        val endDate = startDate.plusDays(2)
+        val endDate = startDate.plusDays(3)
 
         assertThrows<TrainingCourseDoesNotExist> {
             useCase.execute(CreateSessionCommand(
                 startDate, endDate, "IdDoesNotExist", trainer.trainerId.value)
+            )
+        }
+    }
+
+    @Test
+    fun `a trainer cannot lead a Training if he,she have no expertise on it`(){
+        val useCase = CreateTrainingSession(
+            trainingSessionDomainService = TrainingSessionDomainService(
+                trainerRepository,
+                trainingCourseRepository
+            )
+        )
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = startDate.plusDays(3)
+
+        trainer.setExpertises(listOf())
+
+        trainerRepository.update(trainer)
+
+        assertThrows<TrainerCannotLeadThisTraining> {
+            useCase.execute(CreateSessionCommand(
+                startDate, endDate, this.trainingId, trainer.trainerId.value)
             )
         }
     }
