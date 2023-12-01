@@ -4,7 +4,7 @@ import com.example.training.preparation.application.course.RemoveSession
 import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.preparation.domain.course.TrainingCourse
 import com.example.training.preparation.domain.course.TrainingCourseRepository
-import com.example.training.preparation.domain.course.TrainingId
+import com.example.training.preparation.domain.course.CourseId
 import com.example.training.preparation.domain.course.TrainingName
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
 import com.example.training.preparation.domain.course.Session
@@ -37,7 +37,7 @@ class RemoveTrainingSessionTest(
         this.trainingId = UUID.randomUUID().toString()
 
         val course = TrainingCourse(
-                TrainingId(this.trainingId),
+                CourseId(this.trainingId),
                 TrainingName("DDD Training"),
                 3
         )

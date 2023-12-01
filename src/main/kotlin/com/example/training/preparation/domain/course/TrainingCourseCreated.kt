@@ -1,4 +1,4 @@
 package com.example.training.preparation.domain.course
 
-data class TrainingCourseCreated(val trainingId: TrainingId) {
+data class TrainingCourseCreated(val courseId: CourseId) {
 }

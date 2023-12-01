@@ -1,7 +1,7 @@
 package com.example.training.preparation.application.course
 
 import com.example.training.preparation.domain.course.TrainingCourseRepository
-import com.example.training.preparation.domain.course.TrainingId
+import com.example.training.preparation.domain.course.CourseId
 import com.example.training.preparation.domain.mediatorPattern.Component
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
 import com.example.training.preparation.domain.course.SessionId
@@ -14,7 +14,7 @@ class RemoveSession(
 
     fun execute(courseId: String, sessionId: String){
 
-        val course = trainingCourseRepository.getTrainingCourseBy(TrainingId(courseId))
+        val course = trainingCourseRepository.getTrainingCourseBy(CourseId(courseId))
 
         course.removeSession(SessionId(sessionId))
         trainingCourseRepository.save(course)

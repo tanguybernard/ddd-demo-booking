@@ -1,5 +1,5 @@
 package com.example.training.preparation.domain.course
 
-data class TrainingId(val value: String) {
+data class CourseId(val value: String) {
 
 }

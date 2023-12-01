@@ -4,15 +4,15 @@ import com.example.training.preparation.domain.SessionRemovedDomainEvent
 import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.shared.AggregateRoot
 
-class TrainingCourse(val trainingId: TrainingId, val trainingName: TrainingName, val duration: Int)
-    : AggregateRoot<TrainingId>(trainingId){
+class TrainingCourse(val courseId: CourseId, val trainingName: TrainingName, val duration: Int)
+    : AggregateRoot<CourseId>(courseId){
 
     private val sessions: HashMap<SessionId, Session> = hashMapOf()
 
 
     fun removeSession(sessionId: SessionId) {
         sessions.remove(sessionId)
-        this.record(SessionRemovedDomainEvent(trainingId, sessionId))
+        this.record(SessionRemovedDomainEvent(courseId, sessionId))
     }
 
     fun getSessionBy(sessionId: SessionId) : Session {

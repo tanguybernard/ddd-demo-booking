@@ -6,10 +6,10 @@ import com.example.training.preparation.application.course.SessionPeriodIsIncorr
 import com.example.training.preparation.application.course.TrainingSessionDomainService
 import com.example.training.preparation.domain.course.TrainingCourse
 import com.example.training.preparation.domain.course.TrainingCourseRepository
-import com.example.training.preparation.domain.course.TrainingId
+import com.example.training.preparation.domain.course.CourseId
 import com.example.training.preparation.domain.course.TrainingName
 import com.example.training.preparation.domain.trainer.Trainer
-import com.example.training.preparation.domain.trainer.TrainerId
+import com.example.training.preparation.domain.trainer.TrainerBuilder
 import com.example.training.preparation.domain.trainer.TrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
@@ -21,13 +21,12 @@ import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import java.util.*
 
-
 class CreateTrainingSessionTest {
 
 
     private lateinit var trainingCourseRepository: TrainingCourseRepository
     private lateinit var trainerRepository: TrainerRepository
-    private val trainerId = "#tbe"
+    private lateinit var trainer: Trainer
     private lateinit var trainingId: String
 
     @BeforeEach
@@ -35,12 +34,15 @@ class CreateTrainingSessionTest {
         this.trainingCourseRepository = InMemoryTrainingRepository()
         this.trainerRepository = InMemoryTrainerRepository()
 
-        this.trainerRepository.add(Trainer(TrainerId(trainerId)))
+        trainer = TrainerBuilder().build()
+        this.trainerRepository.add(
+            trainer
+        )
 
         this.trainingId = UUID.randomUUID().toString()
         trainingCourseRepository.createTrainingCourse(
             TrainingCourse(
-                TrainingId(this.trainingId),
+                CourseId(this.trainingId),
                 TrainingName("DDD Training"),
                 3
             ))
@@ -58,9 +60,14 @@ class CreateTrainingSessionTest {
         )
         val startDate = LocalDate.now().plusDays(3)
         val endDate = startDate.plusDays(3)
-        val sessionId = useCase.execute(CreateSessionCommand(startDate, endDate, this.trainingId, trainerId))
+        val sessionId = useCase.execute(
+            CreateSessionCommand(startDate, endDate, this.trainingId, trainer.trainerId.value)
+        )
 
-        assertThat(trainingCourseRepository.getTrainingCourseBy(TrainingId(this.trainingId)).getSessionBy(sessionId).sessionId).isEqualTo(sessionId)
+        assertThat(trainingCourseRepository
+            .getTrainingCourseBy(CourseId(this.trainingId))
+            .getSessionBy(sessionId).sessionId) //TODO Demeter law simplify
+            .isEqualTo(sessionId)
 
     }
 
@@ -78,12 +85,10 @@ class CreateTrainingSessionTest {
         val endDate = startDate.plusDays(2)
 
         assertThrows<SessionPeriodIsIncorrectToTheDurationOfACourse> {
-            useCase.execute(CreateSessionCommand(startDate, endDate, this.trainingId, trainerId))
-
+            useCase.execute(CreateSessionCommand(
+                startDate, endDate, this.trainingId, trainer.trainerId.value)
+            )
         }
-
-
-
     }
 
     @Test
@@ -98,8 +103,9 @@ class CreateTrainingSessionTest {
         val endDate = startDate.plusDays(2)
 
         assertThrows<TrainingCourseDoesNotExist> {
-            useCase.execute(CreateSessionCommand(startDate, endDate, "IdDoesNotExist", trainerId))
-
+            useCase.execute(CreateSessionCommand(
+                startDate, endDate, "IdDoesNotExist", trainer.trainerId.value)
+            )
         }
     }
 }

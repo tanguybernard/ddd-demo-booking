@@ -14,7 +14,7 @@ class TrainingSessionDomainService(
 
 
     fun createSessionFromTrainingCourse(command: CreateSessionCommand): SessionId {
-        val training = trainingCourseRepository.getTrainingCourseBy(TrainingId(command.trainingId))
+        val training = trainingCourseRepository.getTrainingCourseBy(CourseId(command.trainingId))
 
         if (training.duration != Period.between(command.startDate, command.endDate).days) {
             throw SessionPeriodIsIncorrectToTheDurationOfACourse

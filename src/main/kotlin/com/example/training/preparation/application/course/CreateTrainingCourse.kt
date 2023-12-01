@@ -6,11 +6,11 @@ import org.springframework.context.ApplicationEventPublisher
 
 class CreateTrainingCourse(private val repository: TrainingCourseRepository, private val eventPublisher: ApplicationEventPublisher) {
 
-    fun execute(command: CreateTrainingCourseCommand): TrainingId {
+    fun execute(command: CreateTrainingCourseCommand): CourseId {
 
         val trainingId = repository.nextId()
         val savedTrainingCourse = repository.createTrainingCourse(TrainingCourse(trainingId, TrainingName(command.name), command.duration))
-        eventPublisher.publishEvent( TrainingCourseCreated(savedTrainingCourse.trainingId))
+        eventPublisher.publishEvent( TrainingCourseCreated(savedTrainingCourse.courseId))
         return trainingId
     }
 }
