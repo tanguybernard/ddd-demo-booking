@@ -26,6 +26,9 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:5.3.2")
     testImplementation("com.tngtech.archunit:archunit:1.2.0")
 
+    //redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
 }
 
 tasks.withType<KotlinCompile> {

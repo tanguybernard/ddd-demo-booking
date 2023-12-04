@@ -7,17 +7,24 @@ import com.example.training.preparation.domain.mediatorPattern.CourseImplMediato
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
+import com.example.training.shared.infrastructure.MessagePublisher
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+
 
 @Configuration
 class MediatorConfiguration {
 
+    @Autowired
+    lateinit var redisPublisher: MessagePublisher
+
+
     @Bean
     fun courseRemovedHandler(): Component {
         return SessionRemovedHandler(
-            null,
-                InMemoryTrainingRepository(),
+            redisPublisher,
+            InMemoryTrainingRepository(),
             InMemoryTrainerRepository()
         )
     }

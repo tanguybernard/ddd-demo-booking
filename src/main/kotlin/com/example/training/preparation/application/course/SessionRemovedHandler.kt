@@ -4,7 +4,6 @@ import com.example.training.preparation.domain.SessionRemovedDomainEvent
 import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.mediatorPattern.Component
 import com.example.training.preparation.domain.trainer.TrainerRepository
-import com.example.training.preparation.infrastructure.redis.SessionCourseIntegrationEvent
 import com.example.training.shared.DomainEvent
 import com.example.training.shared.infrastructure.MessagePublisher
 
@@ -20,10 +19,10 @@ class SessionRemovedHandler(
     override fun receive(event: DomainEvent) {
 
         if(event is SessionRemovedDomainEvent) { //TODO can be improved
-            val integrationEvent = SessionCourseIntegrationEvent()
+            /*val integrationEvent = SessionCourseIntegrationEvent()
             integrationEvent.name = "SESSION REMOVED"
-            integrationEvent.id = event.sessionId.value
-            this.bus?.publish(integrationEvent)
+            integrationEvent.id = event.sessionId.value*/
+            this.bus?.publish("SESSION REMOVED")
         }
 
 
