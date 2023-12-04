@@ -4,7 +4,7 @@ import com.example.training.registration.domain.session.SessionRepository
 import com.example.training.registration.domain.session.events.UserRefusedForSessionEvent
 import com.example.training.shared.DomainEventSubscriber
 
-class UserRefusedForSessionHandler(
+class UserRefusedForSessionDomainEventHandler(
     private val emailSender: EmailSender,
     private val sessionRepository: SessionRepository): DomainEventSubscriber<UserRefusedForSessionEvent>
 {

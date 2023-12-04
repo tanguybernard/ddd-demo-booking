@@ -11,7 +11,7 @@ class RegisterStudentForSession(private val sessionRepository: SessionRepository
     fun execute(command: RegisterStudentCommand) {
         val session = sessionRepository.getSessionBy(SessionId( command.sessionId))
 
-        session.addUser(Place(command.name, command.email, PlaceStatus.REGISTRATION_REQUEST))
+        session.addUser(Place(command.name, command.email, PlaceStatus.REGISTRATION_REQUESTED))
 
         sessionRepository.saveSession(session)
     }

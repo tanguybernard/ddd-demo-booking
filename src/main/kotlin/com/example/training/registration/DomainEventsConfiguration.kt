@@ -1,6 +1,6 @@
 package com.example.training.registration
 
-import com.example.training.registration.application.UserRefusedForSessionHandler
+import com.example.training.registration.application.UserRefusedForSessionDomainEventHandler
 import com.example.training.registration.domain.session.SessionRepository
 import com.example.training.registration.domain.session.events.UserRefusedForSessionEvent
 import com.example.training.registration.infrastructure.InMemorySessionRepository
@@ -19,8 +19,8 @@ class DomainEventsConfiguration {
     }
 
     @Bean
-    fun userRefusedForSessionHandler(): UserRefusedForSessionHandler {
-        return UserRefusedForSessionHandler(
+    fun userRefusedForSessionHandler(): UserRefusedForSessionDomainEventHandler {
+        return UserRefusedForSessionDomainEventHandler(
             FakeEmailSender(), sessionRepository()
         )
     }

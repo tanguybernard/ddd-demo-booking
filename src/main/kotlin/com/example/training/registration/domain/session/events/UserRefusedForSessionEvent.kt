@@ -9,5 +9,9 @@ class UserRefusedForSessionEvent(val sessionId: SessionId, val userEmail: String
     override fun getName(): String {
         return "USER_REFUSED_FOR_SESSION"
     }
+
+    override fun getAggregateRootId(): String {
+        return sessionId.value
+    }
 }
 

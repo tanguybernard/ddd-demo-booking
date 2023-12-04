@@ -1,10 +1,12 @@
 package com.example.training.preparation
 
-import com.example.training.preparation.application.course.CourseRemovedHandler
+import com.example.training.preparation.application.course.SessionRemovedHandler
 import com.example.training.preparation.domain.SessionRemovedDomainEvent
 import com.example.training.preparation.domain.mediatorPattern.Component
 import com.example.training.preparation.domain.mediatorPattern.CourseImplMediator
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
+import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
+import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -13,7 +15,11 @@ class MediatorConfiguration {
 
     @Bean
     fun courseRemovedHandler(): Component {
-        return CourseRemovedHandler()
+        return SessionRemovedHandler(
+            null,
+                InMemoryTrainingRepository(),
+            InMemoryTrainerRepository()
+        )
     }
 
 

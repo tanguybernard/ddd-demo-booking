@@ -1,19 +1,35 @@
 package com.example.training.preparation.application.course
 
+import com.example.training.preparation.domain.SessionRemovedDomainEvent
+import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.mediatorPattern.Component
+import com.example.training.preparation.domain.trainer.TrainerRepository
+import com.example.training.preparation.infrastructure.redis.SessionCourseIntegrationEvent
 import com.example.training.shared.DomainEvent
+import com.example.training.shared.infrastructure.MessagePublisher
 
-class CourseRemovedHandler: Component {
+class SessionRemovedHandler(
+    private val bus: MessagePublisher?,
+    private val trainingCourseRepository: TrainingCourseRepository,
+    private val trainerRepository: TrainerRepository
+) : Component {
 
     override fun send(event: DomainEvent) {
-        TODO("Not yet implemented")
     }
 
     override fun receive(event: DomainEvent) {
 
-        //TODO
-        //need to send  integration event to registration
-        println("Course removed FRom Handler")
+        if(event is SessionRemovedDomainEvent) { //TODO can be improved
+            val integrationEvent = SessionCourseIntegrationEvent()
+            integrationEvent.name = "SESSION REMOVED"
+            integrationEvent.id = event.sessionId.value
+            this.bus?.publish(integrationEvent)
+        }
+
+
+
+
+
     }
 
 

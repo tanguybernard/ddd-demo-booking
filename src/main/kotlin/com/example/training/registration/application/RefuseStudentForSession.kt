@@ -1,4 +1,4 @@
-package com.example.training.registration
+package com.example.training.registration.application
 
 import com.example.training.registration.domain.session.SessionId
 import com.example.training.registration.domain.session.SessionRepository

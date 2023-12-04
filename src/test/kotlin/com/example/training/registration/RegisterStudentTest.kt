@@ -30,7 +30,7 @@ class RegisterStudentTest {
         val name = "John Doe"
         val email = "john.doe@gmail.com"
 
-        val placeExpected = Place(name, email, PlaceStatus.REGISTRATION_REQUEST)
+        val placeExpected = Place(name, email, PlaceStatus.REGISTRATION_REQUESTED)
 
         val useCase = RegisterStudentForSession(sessionRepository)
         useCase.execute(RegisterStudentCommand(name, email, session.sessionId.value))

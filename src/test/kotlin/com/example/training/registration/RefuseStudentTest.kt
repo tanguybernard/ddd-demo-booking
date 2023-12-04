@@ -1,5 +1,6 @@
 package com.example.training.registration
 
+import com.example.training.registration.application.RefuseStudentForSession
 import com.example.training.registration.domain.session.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +31,7 @@ class RefuseStudentTest {
         val name = "John Doe"
         val email = "john.doe@gmail.com"
 
-        val place = Place(name, email, PlaceStatus.REGISTRATION_REQUEST)
+        val place = Place(name, email, PlaceStatus.REGISTRATION_REQUESTED)
 
         session.addUser(place)
         sessionRepository.saveSession(session)
