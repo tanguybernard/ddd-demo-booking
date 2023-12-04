@@ -24,7 +24,7 @@ class TrainingSessionDomainService(
         //Can throw an exception, TrainerNotFound
         val trainer = trainerRepository.getTrainerBy(TrainerId(command.trainerId))
 
-        if(!trainer.getExpertises().contains(training.courseId)) {
+        if(!trainer.canAnimate(training.courseId)) {
             throw TrainerCannotLeadThisTraining()
         }
 

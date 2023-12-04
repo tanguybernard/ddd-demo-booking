@@ -16,6 +16,10 @@ class Trainer(val trainerId: TrainerId) : AggregateRoot<TrainerId>(trainerId){
         return this.expertises
     }
 
+    fun canAnimate(courseId: CourseId): Boolean {
+        return expertises.contains(courseId)
+    }
+
 }
 
 typealias Expertises = List<CourseId>
