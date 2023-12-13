@@ -28,9 +28,7 @@ class Session private constructor(val sessionId: SessionId, val title: SessionTi
 
     companion object {
         fun create(sessionId: SessionId, title: SessionTitle): Session {
-
             return Session(sessionId, title)
-
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.training.preparation
+package com.example.training.preparation.unit
 
 import com.example.training.preparation.application.course.CreateTrainingCourse
 import com.example.training.preparation.application.course.CreateTrainingCourseCommand

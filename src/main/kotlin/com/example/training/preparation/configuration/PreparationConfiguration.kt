@@ -1,7 +1,8 @@
-package com.example.training.preparation
+package com.example.training.preparation.configuration
 
 import com.example.training.preparation.application.course.SessionRemovedHandler
 import com.example.training.preparation.domain.SessionRemovedDomainEvent
+import com.example.training.preparation.domain.course.TrainingCourseRepository
 import com.example.training.preparation.domain.mediatorPattern.Component
 import com.example.training.preparation.domain.mediatorPattern.CourseImplMediator
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
@@ -14,17 +15,22 @@ import org.springframework.context.annotation.Configuration
 
 
 @Configuration
-class MediatorConfiguration {
+class PreparationConfiguration {
 
     @Autowired
-    lateinit var redisPublisher: MessagePublisher
+    lateinit var messagePublisher: MessagePublisher
+
+    @Bean
+    fun trainingRepository(): TrainingCourseRepository {
+        return InMemoryTrainingRepository();
+    }
 
 
     @Bean
     fun courseRemovedHandler(): Component {
         return SessionRemovedHandler(
-            redisPublisher,
-            InMemoryTrainingRepository(),
+            messagePublisher,
+            trainingRepository(),
             InMemoryTrainerRepository()
         )
     }

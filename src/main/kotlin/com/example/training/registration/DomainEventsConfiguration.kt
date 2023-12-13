@@ -1,5 +1,6 @@
 package com.example.training.registration
 
+import com.example.training.registration.application.RefuseStudentForSession
 import com.example.training.registration.application.UserRefusedForSessionDomainEventHandler
 import com.example.training.registration.domain.session.SessionRepository
 import com.example.training.registration.domain.session.events.UserRefusedForSessionEvent
@@ -19,6 +20,11 @@ class DomainEventsConfiguration {
     }
 
     @Bean
+    fun refuseStudentForSession(): RefuseStudentForSession {
+        return RefuseStudentForSession(sessionRepository())
+    }
+
+    @Bean
     fun userRefusedForSessionHandler(): UserRefusedForSessionDomainEventHandler {
         return UserRefusedForSessionDomainEventHandler(
             FakeEmailSender(), sessionRepository()
@@ -29,7 +35,7 @@ class DomainEventsConfiguration {
     @Bean
     fun configureEvents(){
         return DomainEventPublisher.getInstance().register(
-            this.userRefusedForSessionHandler(),
+            userRefusedForSessionHandler(),
             UserRefusedForSessionEvent::class.toString()
         )
     }

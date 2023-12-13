@@ -1,31 +1,45 @@
-package com.example.training.preparation
+package com.example.training.preparation.integration
 
+import com.example.training.NonRedisConfiguration
 import com.example.training.preparation.application.course.UpdateTrainerOnSession
-import com.example.training.preparation.domain.trainer.TrainerId
-import com.example.training.preparation.domain.course.TrainingCourse
-import com.example.training.preparation.domain.course.TrainingCourseRepository
-import com.example.training.preparation.domain.course.CourseId
-import com.example.training.preparation.domain.course.TrainingName
+import com.example.training.preparation.configuration.PreparationConfiguration
+import com.example.training.preparation.domain.course.*
 import com.example.training.preparation.domain.mediatorPattern.CourseMediator
-import com.example.training.preparation.domain.course.Session
-import com.example.training.preparation.domain.course.SessionId
 import com.example.training.preparation.domain.trainer.Trainer
+import com.example.training.preparation.domain.trainer.TrainerId
 import com.example.training.preparation.domain.trainer.TrainerRepository
 import com.example.training.preparation.domain.trainer.UpdateTrainerOnSessionDomainService
+import com.example.training.preparation.infrastructure.stubs.FakeMessagePublisher
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainerRepository
 import com.example.training.preparation.infrastructure.stubs.InMemoryTrainingRepository
+import com.example.training.shared.infrastructure.MessagePublisher
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
+import org.springframework.data.redis.connection.RedisConnection
+import org.springframework.data.redis.connection.RedisConnectionFactory
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.context.TestPropertySource
 import java.time.LocalDate
 import java.util.*
 
-@SpringBootTest
-class UpdateTrainerOnSessionTest(
 
-) {
+@TestPropertySource(properties = ["spring.config.location=classpath:/application-test.properties"])
+@SpringBootTest (classes = [PreparationConfiguration::class, NonRedisConfiguration::class])
+@TestPropertySource(properties = ["app.redis.enabled=false"])
+class UpdateTrainerOnSessionTest {
+
+
+
     @Autowired
     private lateinit var courseMediator: CourseMediator
 

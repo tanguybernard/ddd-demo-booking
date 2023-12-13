@@ -4,7 +4,9 @@ import com.example.training.registration.domain.session.SessionNotFound
 import com.example.training.registration.domain.session.Session
 import com.example.training.registration.domain.session.SessionId
 import com.example.training.registration.domain.session.SessionRepository
+import org.springframework.context.annotation.Scope
 
+@Scope("singleton")
 class InMemorySessionRepository : SessionRepository {
 
     private val sessions : HashMap<SessionId, Session> = hashMapOf()

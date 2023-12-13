@@ -1,4 +1,4 @@
-package com.example.training.registration
+package com.example.training.registration.unit
 
 import com.example.training.registration.application.RegisterStudentCommand
 import com.example.training.registration.application.RegisterStudentForSession
